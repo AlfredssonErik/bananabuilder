@@ -127,7 +127,7 @@ gulp.task('watch', ['browserSync', 'less', 'script'], function() {
     // Run the sass task whenever SCSS files change
     gulp.watch('less/**/*.less', ['less']);
     // Run the Script task whenever Javascript files change
-    gulp.watch('script/**/*.js', ['Script']);
+    gulp.watch('script/**/*.js', ['script']);
     // Reloads the browser whenever HTML or JS files change
     gulp.watch('dist/*.html', browserSync.reload);
     gulp.watch('dist/js/**/*.js', browserSync.reload);
