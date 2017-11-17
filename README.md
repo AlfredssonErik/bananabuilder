@@ -28,3 +28,4 @@ Add '--prod' to build a production version
 ```
 gulp build --prod
 ```
+If you want to use sass instead of less. Switch out the 'less' in the gulpfile to 'sass'
