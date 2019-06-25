@@ -2,35 +2,6 @@
 Created By Erik Alfredsson
 This script compiles javascript and sass files and runs a live reload as well as a production build, this is
 a basic gulp boilerplate, feel free to add your own scripts.
-
-If you have any problems, make sure to follow these steps:
-1. Install npm
-2. Run 'npm install gulp -g'
-3. Run 'npm install' in the root folder with
-this structure (Dont forget the preconfigured package.json file
-that contains the necessary dependencies.)
-
-|- dist/
-  |- css/
-  |- js/
-  |- index.html
-|- sass/
-|- script/
-|- gulpfile.js
-|- node_modules/
-|- package.json
-
-The following commands are available:
-
-To start a live reload of your working files:
-gulp watch
-
-To run the build without live reload:
-gulp build
-
-Add '--prod' to build a production version without sourcemaps and extra minification
-gulp build --prod
-
 ****/
 
 var gulp = require('gulp');
