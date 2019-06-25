@@ -1,6 +1,6 @@
 /****
 Created By Erik Alfredsson
-This script compiles javascript and less files and runs a live reload as well as a production build, this is
+This script compiles javascript and sass files and runs a live reload as well as a production build, this is
 a basic gulp boilerplate, feel free to add your own scripts.
 
 If you have any problems, make sure to follow these steps:
@@ -14,7 +14,7 @@ that contains the necessary dependencies.)
   |- css/
   |- js/
   |- index.html
-|- less/
+|- sass/
 |- script/
 |- gulpfile.js
 |- node_modules/
@@ -34,54 +34,49 @@ gulp build --prod
 ****/
 
 var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var util = require('gulp-util');
+var soucemaps = require('gulp-sourcemaps');
+var mode = require('gulp-mode')({
+	modes: ['prod', 'dev'],
+	default: 'dev',
+	verbose: false
+});
 var del = require('del');
-var less = require('gulp-less');
+var log = require('fancy-log');
+var chalk = require('chalk');
+var sass = require('gulp-sass');
+var cssMinify = require('gulp-cssnano');
 var browserSync = require('browser-sync').create();
-var uglify = require('gulp-uglify');
-var notify = require('gulp-notify');
-var cleancss = require('gulp-clean-css');
 var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
 var runSequence = require('run-sequence');
 
-// Configuration
-var config = {
-    prod: !util.env.prod
-};
 
 // Compile less files
-gulp.task('less', function() {
-    return gulp.src('less/main.less')
-        .pipe(gulpif(config.prod, sourcemaps.init()))
-        .pipe(less()) 
-        .pipe(autoprefixer()) 
-        .pipe(plumber(function(err){
-            onError(err);
-        }))
-        .pipe(cleancss())
-        .pipe(gulpif(config.prod, sourcemaps.write('./maps')))
+gulp.task('sass', function() {
+	return gulp.src('sass/main.scss')
+		.pipe(plumber({errorHandler: onError}))
+        .pipe(sass()) 
+		.pipe(autoprefixer()) 
+		.pipe(mode.prod(cssMinify({
+			safe: true
+		})))
         .pipe(gulp.dest('dist/css/'))
         .pipe(browserSync.reload({
             stream: true
-        }));
-
+		})
+	);
 });
 
 // Compile script files
 gulp.task('script', function (cb) {
-        return gulp.src('script/*.js')
-        .pipe(plumber(function(err){
-            onError(err);
-        }))
-        .pipe(gulpif(config.prod, sourcemaps.init()))
-        .pipe(concat('script.js'))
-        .pipe(gulpif(config.prod, uglify()))
-        .pipe(gulpif(config.prod, sourcemaps.write('./maps')))
-        .pipe(gulp.dest('dist/js/'));    
+	return gulp.src('script/*.js')
+		.pipe(mode.dev(soucemaps.init()))
+		.pipe(plumber({errorHandler: onError}))
+		.pipe(concat('script.js'))
+		.pipe(mode.dev(soucemaps.write()))
+		.pipe(gulp.dest('dist/js/')
+	);    
 });
 
 // Browsersync
@@ -95,12 +90,8 @@ gulp.task('browserSync', function() {
 
 // Error handling
 var onError = function (err) {
-    notify({
-        title: 'Gulp Task Error',
-        message: 'Check the console.',
-        sound: true
-    }).write(err);
-    console.log(err.toString());
+	log.error(chalk.redBright(err.message.toString()));
+	this.emit('end');
 };
 
 // Clean
@@ -115,20 +106,17 @@ gulp.task('clean', function() {
 gulp.task('build', function() {
     runSequence(
         'clean',
-        ['less','script']
+        ['sass','script']
     );
 });
 
 // Start the watch task to watch files for changes.
 // The second argument with an array is to run certain tasks before 'watch'.
-// In this case to first start browser-sync and run the "less task"
+// In this case to first start browser-sync and run the "sass task"
 // to generate the css file before watching for additional changes.
-gulp.task('watch', ['browserSync', 'less', 'script'], function() {
+gulp.task('watch', ['browserSync', 'sass', 'script'], function() {
     // Run the sass task whenever SCSS files change
-    gulp.watch('less/**/*.less', ['less']);
+    gulp.watch('sass/**/*.scss', ['sass']);
     // Run the Script task whenever Javascript files change
     gulp.watch('script/**/*.js', ['script']);
-    // Reloads the browser whenever HTML or JS files change
-    gulp.watch('dist/*.html', browserSync.reload);
-    gulp.watch('dist/js/**/*.js', browserSync.reload);
 });

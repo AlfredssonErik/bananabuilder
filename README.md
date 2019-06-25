@@ -1,5 +1,5 @@
 ## Bananabuilder
-Get started with compiling your less/sass and javascript files. Complete with a live reload and production builds.
+Get started with compiling your sass and javascript files. Complete with a live reload and production builds.
 
 ### Getting started
 Run 'npm install' in the root folder with this structure
@@ -8,7 +8,7 @@ Run 'npm install' in the root folder with this structure
   |- css/
   |- js/
   |- index.html
-|- less/
+|- sass/
 |- script/
 |- gulpfile.js
 |- node_modules/
@@ -27,5 +27,3 @@ gulp build
 Add '--prod' to build a production version
 ```
 gulp build --prod
-```
-If you want to use sass instead of less. Switch out the 'less' in the gulpfile to 'sass'
