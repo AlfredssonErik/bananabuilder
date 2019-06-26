@@ -12,6 +12,7 @@
 
 	<main>
 		<h1>About</h1>
+		<p>{{ site.description }}</p>
 	</main>
 
 {% endblock %}
