@@ -8,17 +8,17 @@ Run 'npm install' in the root folder with this structure
   |- css/
   |- js/
 |- nunjucks/
-	|- pages/
-		|- about.nj
-		|- contact.nj
-		|- index.nj
-	|- templates/
-		|- macros/
-			|- navigation.nj
-		|- partials/
-			|- gallery.nj
-		|- layout.nj
-		|- data.json
+  |- layout.nj
+  |- data.json
+  |- pages/
+    |- about.nj
+    |- contact.nj
+    |- index.nj
+  |- templates/
+    |- macros/
+      |- navigation.nj
+    |- partials/
+      |- gallery.nj
 |- sass/
 |- script/
 |- gulpfile.js
