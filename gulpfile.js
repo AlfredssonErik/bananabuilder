@@ -23,12 +23,13 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
 var runSequence = require('run-sequence');
+var fs = require('fs');
 
 gulp.task('nunjucks', function(){
 	return gulp.src('nunjucks/pages/**/*.+(html|nj)')
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(data(function() {
-		return require('./nunjucks/data.json')
+		return JSON.parse(fs.readFileSync('./nunjucks/data.json'));
 	}))
 	.pipe(nunjucksRender({
 		path: ['nunjucks/templates']
