@@ -1,0 +1,22 @@
+{
+	"site": {
+		"title": "Banana builder",
+		"description": "Static site generator. Get started with compiling your nunjucks, sass and javascript files. Complete with a live reload and production builds.",
+		"author": "Erik Alfredsson",
+		"mail": "erik.alfredsson.jb@gmail.com"
+	},
+	"images": [
+		{
+			"src": "http://placeimg.com/300/300/nature",
+			"alt": "nature"
+		}, 
+		{
+			"src": "http://placeimg.com/300/300/tech",
+			"alt": "tech"
+		},
+		{
+			"src": "http://placeimg.com/300/300/animals",
+			"alt": "animals"
+		}
+	]
+  }

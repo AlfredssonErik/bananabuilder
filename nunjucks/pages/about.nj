@@ -1,0 +1,18 @@
+<!-- index.nunjucks -->
+{% extends "layout.nj" %}
+
+
+<!-- index.nunjucks -->
+{% block content %}
+
+	<!-- Importing Nunjucks Macro -->
+	{% import '../templates/macros/navigation.nj' as nav %}
+	<!-- Creating the navigation with activePage = 'home' -->
+	{{nav.active('about')}}
+
+	<main>
+		<h1>About</h1>
+		<p>{{ site.description }}</p>
+	</main>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+<!-- layout.nunjucks -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Banana Builder</title>
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+	<link href="https://fonts.googleapis.com/css?family=Muli:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+	<!-- You write code for this content block in another file -->
+	{% block content %} {% endblock %}
+    <script src="js/script.js"></script>
+  </body>
+</html>
