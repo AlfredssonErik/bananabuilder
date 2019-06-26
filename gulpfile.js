@@ -1,6 +1,6 @@
 /****
 Created By Erik Alfredsson
-This script compiles javascript and sass files and runs a live reload as well as a production build, this is
+This script compiles nunjucks, javascript and sass files and runs a live reload as well as a production build, this is
 a basic gulp boilerplate, feel free to add your own scripts.
 ****/
 
