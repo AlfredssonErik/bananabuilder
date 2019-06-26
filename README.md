@@ -5,8 +5,6 @@ Static site generator. Get started with compiling your nunjucks, sass and javasc
 Run 'npm install' in the root folder with this structure
 ```
 |- dist/
-  |- css/
-  |- js/
 |- nunjucks/
   |- layout.nj
   |- data.json
