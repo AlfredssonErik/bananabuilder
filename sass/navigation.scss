@@ -1,0 +1,42 @@
+.nav {
+	font-family: 'Muli', sans-serif;
+	width: 100%;
+	padding: 20px 0;
+}
+
+.nav__item {
+	position: relative;
+	color: #333;
+	display: inline-block;
+	font-size: 18px;
+	text-decoration: none;
+	margin: 0 10px;
+	padding: 5px 0;
+
+	&:visited {
+		color: #333;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		height: 2px;
+		width: 0;
+		left: 0;
+		bottom: 0;
+		background-color: #666;
+		transition: width .2s ease-in-out;
+	}
+
+	&:hover {
+		&:after {
+			width: 100%;
+		}
+	}
+
+	&--active {
+		&:after {
+			width: 100%;
+		}
+	}
+}

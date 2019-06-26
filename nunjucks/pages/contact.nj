@@ -1,0 +1,17 @@
+<!-- index.nunjucks -->
+{% extends "layout.nj" %}
+
+
+<!-- index.nunjucks -->
+{% block content %}
+
+	<!-- Importing Nunjucks Macro -->
+	{% import '../templates/macros/navigation.nj' as nav %}
+	<!-- Creating the navigation with activePage = 'home' -->
+	{{nav.active('contact')}}
+
+	<main>
+		<h1>Contact</h1>
+	</main>
+
+{% endblock %}

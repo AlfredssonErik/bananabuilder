@@ -1,0 +1,9 @@
+{
+	"images": [{
+	  "src": "http://placeimg.com/300/300/nature",
+	  "alt": "nature"
+	}, {
+	  "src": "http://placeimg.com/300/300/tech",
+	  "alt": "tech"
+	}]
+  }

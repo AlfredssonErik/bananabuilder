@@ -1,0 +1,19 @@
+<!-- index.nunjucks -->
+{% extends "layout.nj" %}
+
+
+<!-- index.nunjucks -->
+{% block content %}
+
+	<!-- Importing Nunjucks Macro -->
+	{% import '../templates/macros/navigation.nj' as nav %}
+	<!-- Creating the navigation with activePage = 'home' -->
+	{{nav.active('home')}}
+	
+	<main>
+		<h1>Home</h1>
+		<!-- Importing Gallery Partial -->
+		{% include "../templates/partials/gallery.nj" %}
+	</main>
+
+{% endblock %}
