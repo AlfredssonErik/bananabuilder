@@ -83,8 +83,7 @@ var onError = function (err) {
 // Clean
 gulp.task('clean', function() {
     return del([
-        'dist/css/**/*',
-        'dist/js/**/*'
+		'dist/*'
       ]);
 });
 
@@ -92,7 +91,7 @@ gulp.task('clean', function() {
 gulp.task('build', function() {
     runSequence(
         'clean',
-        ['sass','script']
+        ['nunjucks', 'sass','script']
     );
 });
 
