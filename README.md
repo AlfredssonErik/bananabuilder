@@ -1,5 +1,5 @@
 ## Bananabuilder
-Get started with compiling your sass and javascript files. Complete with a live reload and production builds.
+Static site generator. Get started with compiling your nunjucks, sass and javascript files. Complete with a live reload and production builds.
 
 ### Getting started
 Run 'npm install' in the root folder with this structure
@@ -7,7 +7,18 @@ Run 'npm install' in the root folder with this structure
 |- dist/
   |- css/
   |- js/
-  |- index.html
+|- nunjucks/
+	|- pages/
+		|- about.nj
+		|- contact.nj
+		|- index.nj
+	|- templates/
+		|- macros/
+			|- navigation.nj
+		|- partials/
+			|- gallery.nj
+		|- layout.nj
+		|- data.json
 |- sass/
 |- script/
 |- gulpfile.js

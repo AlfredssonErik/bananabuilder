@@ -101,7 +101,7 @@ gulp.task('build', function() {
 // In this case to first start browser-sync and run the "sass task"
 // to generate the css file before watching for additional changes.
 gulp.task('watch', ['browserSync', 'nunjucks', 'sass', 'script'], function() {
-    // Run the sass task whenever nunjucks files change
+    // Run the nunjucks task whenever nunjucks files change
     gulp.watch('nunjucks/**/*.+(html|nj|json)', ['nunjucks']);
     // Run the sass task whenever SCSS files change
     gulp.watch('sass/**/*.scss', ['sass']);
