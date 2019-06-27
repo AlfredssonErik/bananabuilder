@@ -1,31 +1,32 @@
+"use strict";
+
 /****
 Created By Erik Alfredsson
 This script compiles nunjucks, javascript and sass files and runs a live reload as well as a production build, this is
 a basic gulp boilerplate, feel free to add your own scripts.
 ****/
 
-var gulp = require('gulp');
-var nunjucksRender = require('gulp-nunjucks-render');
-var data = require('gulp-data');
-var soucemaps = require('gulp-sourcemaps');
-var mode = require('gulp-mode')({
+const gulp = require('gulp');
+const nunjucksRender = require('gulp-nunjucks-render');
+const data = require('gulp-data');
+const soucemaps = require('gulp-sourcemaps');
+const mode = require('gulp-mode')({
 	modes: ['prod', 'dev'],
 	default: 'dev',
 	verbose: false
 });
-var del = require('del');
-var log = require('fancy-log');
-var chalk = require('chalk');
-var sass = require('gulp-sass');
-var cssMinify = require('gulp-cssnano');
-var browserSync = require('browser-sync').create();
-var autoprefixer = require('gulp-autoprefixer');
-var concat = require('gulp-concat');
-var plumber = require('gulp-plumber');
-var runSequence = require('run-sequence');
-var fs = require('fs');
+const del = require('del');
+const log = require('fancy-log');
+const chalk = require('chalk');
+const sass = require('gulp-sass');
+const cssMinify = require('gulp-cssnano');
+const browsersync = require('browser-sync').create();
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
+const plumber = require('gulp-plumber');
+const fs = require('fs');
 
-gulp.task('nunjucks', function(){
+function nunjucks(){
 	return gulp.src('nunjucks/pages/**/*.+(html|nj)')
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(data(function() {
@@ -34,15 +35,12 @@ gulp.task('nunjucks', function(){
 	.pipe(nunjucksRender({
 		path: ['nunjucks/templates']
 	}))
-	.pipe(gulp.dest('dist'))
-	.pipe(browserSync.reload({
-		stream: true
-	}));
-});
+	.pipe(gulp.dest('dist'));
+};
 
 
-// Compile less files
-gulp.task('sass', function() {
+// Compile style files
+function styles() {
 	return gulp.src('sass/main.scss')
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(sass()) 
@@ -51,60 +49,68 @@ gulp.task('sass', function() {
 		safe: true
 	})))
 	.pipe(gulp.dest('dist/css/'))
-	.pipe(browserSync.reload({
-		stream: true
-	}));
-});
+	.pipe(browsersync.stream());
+};
 
 // Compile script files
-gulp.task('script', function (cb) {
+function scripts() {
 	return gulp.src('script/*.js')
 	.pipe(mode.dev(soucemaps.init()))
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(concat('script.js'))
 	.pipe(mode.dev(soucemaps.write()))
-	.pipe(gulp.dest('dist/js/'));    
-});
+	.pipe(gulp.dest('dist/js/'))
+	.pipe(browsersync.stream());
+};
 
 // Browsersync
-gulp.task('browserSync', function() {
-    browserSync.init({
+function browserSync(done) {
+	browsersync.init({
         server: {
             baseDir: 'dist'
-        },
-    });
-});
+		}
+	});
+	done();
+}
+
+// Browsersync reload
+function browserSyncReload(done) {
+	browsersync.reload();
+	done();
+}
 
 // Error handling
-var onError = function (err) {
+function onError(err) {
 	log.error(chalk.redBright(err.message.toString()));
 	this.emit('end');
 };
 
 // Clean
-gulp.task('clean', function() {
-    return del([
-		'dist/*'
-      ]);
-});
-
-// Build once
-gulp.task('build', function() {
-    runSequence(
-        'clean',
-        ['nunjucks', 'sass','script']
-    );
-});
+function clean() {
+	return del(['dist/*']);
+}
 
 // Start the watch task to watch files for changes.
 // The second argument with an array is to run certain tasks before 'watch'.
 // In this case to first start browser-sync and run the "sass task"
 // to generate the css file before watching for additional changes.
-gulp.task('watch', ['browserSync', 'nunjucks', 'sass', 'script'], function() {
-    // Run the nunjucks task whenever nunjucks files change
-    gulp.watch('nunjucks/**/*.+(html|nj|json)', ['nunjucks']);
-    // Run the sass task whenever SCSS files change
-    gulp.watch('sass/**/*.scss', ['sass']);
-    // Run the Script task whenever Javascript files change
-    gulp.watch('script/**/*.js', ['script']);
-});
+function watcher() {
+	// Run the nunjucks task whenever nunjucks files change
+	gulp.watch('nunjucks/**/*.+(html|nj|json)', gulp.series(nunjucks, browserSyncReload));
+	// Run the sass task whenever SCSS files change
+	gulp.watch('sass/**/*.scss', styles);
+	// Run the Script task whenever Javascript files change
+	gulp.watch('script/**/*.js', scripts);
+}
+
+// export tasks
+const build = gulp.series(clean, gulp.parallel(nunjucks, styles));
+const watch = gulp.series(gulp.parallel(nunjucks, styles, scripts), gulp.parallel(watcher, browserSync));
+
+exports.nunjucks = nunjucks;
+exports.styles = styles;
+exports.scripts = scripts;
+exports.onError = onError;
+exports.clean = clean;
+exports.build = build;
+exports.watch = watch;
