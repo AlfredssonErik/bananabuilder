@@ -91,9 +91,6 @@ function clean() {
 }
 
 // Start the watch task to watch files for changes.
-// The second argument with an array is to run certain tasks before 'watch'.
-// In this case to first start browser-sync and run the "sass task"
-// to generate the css file before watching for additional changes.
 function watcher() {
 	// Run the nunjucks task whenever nunjucks files change
 	gulp.watch('nunjucks/**/*.+(html|nj|json)', gulp.series(nunjucks, browserSyncReload));
