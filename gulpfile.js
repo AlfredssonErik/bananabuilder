@@ -63,6 +63,12 @@ function scripts() {
 	.pipe(browsersync.stream());
 };
 
+// Copy assets
+function assets() {
+	return gulp.src('assets/**/*')
+	.pipe(gulp.dest('dist/assets'))
+}
+
 // Browsersync
 function browserSync(done) {
 	browsersync.init({
@@ -102,11 +108,12 @@ function watcher() {
 
 // export tasks
 const build = gulp.series(clean, gulp.parallel(nunjucks, styles));
-const watch = gulp.series(gulp.parallel(nunjucks, styles, scripts), gulp.parallel(watcher, browserSync));
+const watch = gulp.series(gulp.parallel(nunjucks, styles, scripts, assets), gulp.parallel(watcher, browserSync));
 
 exports.nunjucks = nunjucks;
 exports.styles = styles;
 exports.scripts = scripts;
+exports.assets = assets;
 exports.onError = onError;
 exports.clean = clean;
 exports.build = build;
