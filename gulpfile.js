@@ -20,6 +20,7 @@ const log = require('fancy-log');
 const chalk = require('chalk');
 const sass = require('gulp-sass');
 const cssMinify = require('gulp-cssnano');
+const uglify = require('gulp-uglify');
 const browsersync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
@@ -54,10 +55,11 @@ function styles() {
 
 // Compile script files
 function scripts() {
-	return gulp.src('script/*.js')
+	return gulp.src('script/**/*.js')
 	.pipe(mode.dev(soucemaps.init()))
 	.pipe(plumber({errorHandler: onError}))
 	.pipe(concat('script.js'))
+	.pipe(mode.prod(uglify()))
 	.pipe(mode.dev(soucemaps.write()))
 	.pipe(gulp.dest('dist/js/'))
 	.pipe(browsersync.stream());
@@ -107,7 +109,7 @@ function watcher() {
 }
 
 // export tasks
-const build = gulp.series(clean, gulp.parallel(nunjucks, styles));
+const build = gulp.series(clean, gulp.parallel(nunjucks, styles, scripts, assets));
 const watch = gulp.series(gulp.parallel(nunjucks, styles, scripts, assets), gulp.parallel(watcher, browserSync));
 
 exports.nunjucks = nunjucks;
